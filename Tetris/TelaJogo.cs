@@ -53,6 +53,25 @@ namespace Tetris
             PintarPeca();
         }
 
+        public void CriaGrid()
+        {
+            for (int Linhas = 0; Linhas < 20; Linhas++)
+            {
+                for (int Colunas = 0; Colunas < 10; Colunas++)
+                {
+                    Panel panel = new Panel();
+
+                    Grid.Controls.Add(panel, Colunas, Linhas);
+                    panel.BackColor = Color.White;
+                    panel.BorderStyle = BorderStyle.FixedSingle;
+                    panel.Dock = DockStyle.Fill;
+                    panel.Margin = new System.Windows.Forms.Padding(1);
+
+                    gridVisual[Linhas, Colunas] = panel;
+                }
+            }
+        }
+
         public void InsertPeca()
         {
             int[,] grid = fila.ProximoBloco.GridBlocos[Giro];
@@ -142,6 +161,53 @@ namespace Tetris
             }
         }
 
+        public void LimitaMovimentoLateral()
+        {
+            for(int i = 19; i >= 0; i--)
+            {
+                if(Grade[i,0] == 1)
+                {
+                    clickEsquerdaHabilitado = false;
+                }else if(Grade[i, 9] == 1)
+                {
+                    clickDireitoHabilitado = false;
+                }
+                
+            }
+        }
+
+        public void LimiteInferior()
+        {
+            for(int i = 9; i >= 0; i--)
+            {
+                if(Grade[19,i] == 1)
+                {
+                    clickBaixoHabilitado = false;
+                    return;
+                }
+            }
+        }
+
+        public bool LimitesMatrizEsquerda(int j)
+        {
+            if (j > 0 && j <= 9)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            };
+        }
+
+        public bool LimitesMatrizDireita(int j)
+        {
+            if (j >= 0 && j < 9)
+                return true;
+            else
+                return false;
+        }
+
         public void VerificaPecaFixada()
         {
             for(int i = 19; i >= 0; i--)
@@ -177,33 +243,6 @@ namespace Tetris
                             clickBaixoHabilitado = true;
                         }
                     }
-                }
-            }
-        }
-
-        public void LimitaMovimentoLateral()
-        {
-            for(int i = 19; i >= 0; i--)
-            {
-                if(Grade[i,0] == 1)
-                {
-                    clickEsquerdaHabilitado = false;
-                }else if(Grade[i, 9] == 1)
-                {
-                    clickDireitoHabilitado = false;
-                }
-                
-            }
-        }
-
-        public void LimiteInferior()
-        {
-            for(int i = 9; i >= 0; i--)
-            {
-                if(Grade[19,i] == 1)
-                {
-                    clickBaixoHabilitado = false;
-                    return;
                 }
             }
         }
@@ -258,7 +297,131 @@ namespace Tetris
                 }
             }
         }
+        
+        public void HabilitaMovimentacao()
+        {
+            clickBaixoHabilitado = true;
+            clickCimaHabilitado = true;
+            clickDireitoHabilitado = true;
+            clickEsquerdaHabilitado = true;
+            clickEspacoHabilitado = true;
+        }
 
+        public void DesabilitaMovimentacao()
+        {
+            clickBaixoHabilitado = false;
+            clickCimaHabilitado = false;
+            clickDireitoHabilitado = false;
+            clickEsquerdaHabilitado = false;
+            clickEspacoHabilitado = false;
+        }
+
+        public bool FixaPeca()
+        {
+            for (int linha = 19; linha >= 0; linha--)
+            {
+                for (int coluna = 0; coluna < 10; coluna++)
+                {
+                    if (Grade[linha, coluna] == 1)
+                    {
+                        Grade[linha, coluna] = 3;
+                    }
+                }
+            }
+            return pecaFixada = true;
+        }
+        
+        public void PintarPecaFixa()
+        {
+            for (int linha = 0; linha < 20; linha++)
+            {
+                for (int coluna = 0; coluna < 10; coluna++)
+                {
+                    if (Grade[linha, coluna] == 3)
+                    {
+                        switch (fila.ProximoBloco.ID)
+                        {
+                            case 1:
+                                gridVisual[linha, coluna].BackColor = Color.FromArgb(5, 219, 242);
+                                break;
+                            case 2:
+                                gridVisual[linha, coluna].BackColor = Color.FromArgb(36, 5, 242);
+                                break;
+                            case 3:
+                                gridVisual[linha, coluna].BackColor = Color.FromArgb(242, 101, 19);
+                                break;
+                            case 4:
+                                gridVisual[linha, coluna].BackColor = Color.FromArgb(242, 187, 19);
+                                break;
+                            case 5:
+                                gridVisual[linha, coluna].BackColor = Color.FromArgb(44, 191, 4);
+                                break;
+                            case 6:
+                                gridVisual[linha, coluna].BackColor = Color.FromArgb(117, 3, 166);
+                                break;
+                            case 7:
+                                gridVisual[linha, coluna].BackColor = Color.FromArgb(242, 27, 84);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        public void InsertNovaPeca()
+        {
+            pecaFixada = false;
+            fila.NovoBloco();
+            int[,] grid = fila.ProximoBloco.GridBlocos[Giro];
+            novaPeca = grid;
+            offSetVertical = fila.ProximoBloco.offSetVertical;
+
+            for (int linha = 0; linha < novaPeca.GetLength(0); linha++)
+            {
+                for (int coluna = 0; coluna < novaPeca.GetLength(1); coluna++)
+                {
+                    if (grid[linha, coluna] != 0)
+                    {
+                        Grade[linha, coluna + 3] = novaPeca[linha, coluna];
+                        offSetHorizontal = 3;
+                    }
+                }
+            }
+        }
+        
+        private void Rotacao(int Giro)
+        {
+            for(int linha = 0; linha < Grade.GetLength(0); linha++)
+            {
+                for(int coluna = 0; coluna < Grade.GetLength(1); coluna++)
+                {
+                    if(Grade[linha,coluna] != 0 && Grade[linha,coluna] != 3)
+                    {
+                        Grade[linha, coluna] = 0;
+                        AtualizaGrade(Giro);
+                        PintarPeca();
+                    }
+                }
+            }
+        }
+        
+        public void AtualizaGrade(int Giro)
+        {
+            Bloco grid = fila.ProximoBloco;
+            pecaAtual = grid.GridBlocos[Giro];
+
+            for(int linha = 0; linha < pecaAtual.GetLength(0); linha++)
+            {
+                for(int coluna = 0; coluna < pecaAtual.GetLength(1); coluna++)
+                {
+                    if(pecaAtual[linha,coluna] == 1)
+                    {
+                        Grade[offSetVertical + linha,offSetHorizontal + coluna] = pecaAtual[linha, coluna];
+                    }
+                }
+            }
+        }
+        
         private void Ticks_Tick(object sender, EventArgs e)
         {
             lblPontos.Text = "Pontos: " + pontos;
@@ -271,7 +434,21 @@ namespace Tetris
             }
             VisualizarMatriz();
         }
-        
+
+        private void Movimentacao_Tick(object sender, EventArgs e)
+        {
+            PintarPeca();
+            VerificaPecaFixada();
+            LimitaMovimentoLateral();
+        }
+
+        private void NewPeca_Tick(object sender, EventArgs e)
+        {
+            Giro = 0;
+            InsertNovaPeca();
+            NewPeca.Enabled = false;
+            HabilitaMovimentacao();
+        }
 
         private void TelaGame_KeyDown(object sender, KeyEventArgs e)
         {
@@ -360,171 +537,6 @@ namespace Tetris
                     break;
             }
         }
-
-        public bool LimitesMatrizDireita(int j)
-        {
-            if (j >= 0 && j < 9)
-                return true;
-            else
-                return false;
-        }
-
-        public bool LimitesMatrizEsquerda(int j)
-        {
-            if (j > 0 && j <= 9)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            };
-        }
-
-        public void DesabilitaMovimentacao()
-        {
-            clickBaixoHabilitado = false;
-            clickCimaHabilitado = false;
-            clickDireitoHabilitado = false;
-            clickEsquerdaHabilitado = false;
-            clickEspacoHabilitado = false;
-        }
-
-        public void HabilitaMovimentacao()
-        {
-            clickBaixoHabilitado = true;
-            clickCimaHabilitado = true;
-            clickDireitoHabilitado = true;
-            clickEsquerdaHabilitado = true;
-            clickEspacoHabilitado = true;
-        }
-
-        //******TESTES**********
-        private void Movimentacao_Tick(object sender, EventArgs e)
-        {
-            PintarPeca();
-            VerificaPecaFixada();
-            LimitaMovimentoLateral();
-            VerificaLocalPeca();
-        }
-
-        public bool FixaPeca()
-        {
-            for (int linha = 19; linha >= 0; linha--)
-            {
-                for (int coluna = 0; coluna < 10; coluna++)
-                {
-                    if (Grade[linha, coluna] == 1)
-                    {
-                        Grade[linha, coluna] = 3;
-                    }
-                }
-            }
-            return pecaFixada = true;
-        }
-
-        public void InsertNovaPeca()
-        {
-            pecaFixada = false;
-            fila.NovoBloco();
-            int[,] grid = fila.ProximoBloco.GridBlocos[Giro];
-            novaPeca = grid;
-            offSetVertical = fila.ProximoBloco.offSetVertical;
-
-            for (int linha = 0; linha < novaPeca.GetLength(0); linha++)
-            {
-                for (int coluna = 0; coluna < novaPeca.GetLength(1); coluna++)
-                {
-                    if (grid[linha, coluna] != 0)
-                    {
-                        Grade[linha, coluna + 3] = novaPeca[linha, coluna];
-                        offSetHorizontal = 3;
-                    }
-                }
-            }
-        }
-
-        public void CriaGrid()
-        {
-            for (int Linhas = 0; Linhas < 20; Linhas++)
-            {
-                for (int Colunas = 0; Colunas < 10; Colunas++)
-                {
-                    Panel panel = new Panel();
-
-                    Grid.Controls.Add(panel, Colunas, Linhas);
-                    panel.BackColor = Color.White;
-                    panel.BorderStyle = BorderStyle.FixedSingle;
-                    panel.Dock = DockStyle.Fill;
-                    panel.Margin = new System.Windows.Forms.Padding(1);
-
-                    gridVisual[Linhas, Colunas] = panel;
-                }
-            }
-        }
-
-        public void PintarPecaFixa()
-        {
-            for (int linha = 0; linha < 20; linha++)
-            {
-                for (int coluna = 0; coluna < 10; coluna++)
-                {
-                    if (Grade[linha, coluna] == 3)
-                    {
-                        switch (fila.ProximoBloco.ID)
-                        {
-                            case 1:
-                                gridVisual[linha, coluna].BackColor = Color.FromArgb(5, 219, 242);
-                                break;
-                            case 2:
-                                gridVisual[linha, coluna].BackColor = Color.FromArgb(36, 5, 242);
-                                break;
-                            case 3:
-                                gridVisual[linha, coluna].BackColor = Color.FromArgb(242, 101, 19);
-                                break;
-                            case 4:
-                                gridVisual[linha, coluna].BackColor = Color.FromArgb(242, 187, 19);
-                                break;
-                            case 5:
-                                gridVisual[linha, coluna].BackColor = Color.FromArgb(44, 191, 4);
-                                break;
-                            case 6:
-                                gridVisual[linha, coluna].BackColor = Color.FromArgb(117, 3, 166);
-                                break;
-                            case 7:
-                                gridVisual[linha, coluna].BackColor = Color.FromArgb(242, 27, 84);
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void NewPeca_Tick(object sender, EventArgs e)
-        {
-            Giro = 0;
-            InsertNovaPeca();
-            NewPeca.Enabled = false;
-            HabilitaMovimentacao();
-        }
-        
-        public void AtualizaGrade(int Giro)
-        {
-            Bloco grid = fila.ProximoBloco;
-            pecaAtual = grid.GridBlocos[Giro];
-
-            for(int linha = 0; linha < pecaAtual.GetLength(0); linha++)
-            {
-                for(int coluna = 0; coluna < pecaAtual.GetLength(1); coluna++)
-                {
-                    if(pecaAtual[linha,coluna] == 1)
-                    {
-                        Grade[offSetVertical + linha,offSetHorizontal + coluna] = pecaAtual[linha, coluna];
-                    }
-                }
-            }
-        }
-
         public void VisualizarMatriz()
         {
             
@@ -534,38 +546,6 @@ namespace Tetris
             Console.WriteLine(Posicoes[0]);
 
         }
-
-        private void Rotacao(int Giro)
-        {
-            for(int linha = 0; linha < Grade.GetLength(0); linha++)
-            {
-                for(int coluna = 0; coluna < Grade.GetLength(1); coluna++)
-                {
-                    if(Grade[linha,coluna] != 0 && Grade[linha,coluna] != 3)
-                    {
-                        Grade[linha, coluna] = 0;
-                        AtualizaGrade(Giro);
-                        PintarPeca();
-                    }
-                }
-            }
-        }
-
-        private void VerificaLocalPeca()
-        {
-            
-            for(int linha = 0; linha < 20; linha++)
-            {
-                for(int coluna = 0; coluna < 10; coluna++)
-                {
-                    if(Grade[linha,coluna] == 1)
-                    {
-                        Posicoes[0] = coluna;
-                    }
-                }
-            }
-        }
-
     }
 }
 
