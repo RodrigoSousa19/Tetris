@@ -83,7 +83,7 @@ namespace Tetris
             this.Grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.Grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.Grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.Grid.Size = new System.Drawing.Size(298, 690);
+            this.Grid.Size = new System.Drawing.Size(300, 600);
             this.Grid.TabIndex = 0;
             // 
             // lblPontos
