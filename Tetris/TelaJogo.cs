@@ -26,7 +26,7 @@ namespace Tetris
         private Fila fila = new Fila();
         public int[,] novaPeca;
         public int[,] pecaAtual;
-        public int Giro = 0;
+        public int Giro = 1;
         public int[,] Grade = new int[20, 10];
         private Panel[,] gridVisual = new Panel[20, 10];
         public int pontos = 0;
@@ -122,7 +122,7 @@ namespace Tetris
                                 break;
                         }
                     }
-                    else if(Grade[linha,coluna] == 0)
+                    else if (Grade[linha, coluna] == 0)
                     {
                         gridVisual[linha, coluna].BackColor = Color.White;
                     }
@@ -133,7 +133,7 @@ namespace Tetris
 
         public void DescerPeca()
         {
-            
+
             int auxiliar;
             for (int linha = 19; linha >= 0; linha--)
             {
@@ -142,12 +142,12 @@ namespace Tetris
                     if (Grade[linha, coluna] == 1 && linha < 19)
                     {
                         auxiliar = Grade[linha, coluna];
-                        if (Grade[linha+1,coluna] == 0 && Grade[linha + 1,coluna] != 3 && clickBaixoHabilitado)
+                        if (Grade[linha + 1, coluna] == 0 && Grade[linha + 1, coluna] != 3 && clickBaixoHabilitado)
                         {
                             Grade[linha + 1, coluna] = auxiliar;
                             Grade[linha, coluna] = 0;
                             gridVisual[linha, coluna].BackColor = Color.White;
-                            
+
                         }
                         else
                         {
@@ -163,24 +163,25 @@ namespace Tetris
 
         public void LimitaMovimentoLateral()
         {
-            for(int i = 19; i >= 0; i--)
+            for (int i = 19; i >= 0; i--)
             {
-                if(Grade[i,0] == 1)
+                if (Grade[i, 0] == 1)
                 {
                     clickEsquerdaHabilitado = false;
-                }else if(Grade[i, 9] == 1)
+                }
+                else if (Grade[i, 9] == 1)
                 {
                     clickDireitoHabilitado = false;
                 }
-                
+
             }
         }
 
         public void LimiteInferior()
         {
-            for(int i = 9; i >= 0; i--)
+            for (int i = 9; i >= 0; i--)
             {
-                if(Grade[19,i] == 1)
+                if (Grade[19, i] == 1)
                 {
                     clickBaixoHabilitado = false;
                     return;
@@ -210,13 +211,13 @@ namespace Tetris
 
         public void VerificaPecaFixada()
         {
-            for(int i = 19; i >= 0; i--)
+            for (int i = 19; i >= 0; i--)
             {
-                for(int j = 9; j >= 0; j--)
+                for (int j = 9; j >= 0; j--)
                 {
-                    if(Grade[i,j] == 3)
+                    if (Grade[i, j] == 3)
                     {
-                        if(Grade[i-1,j] == 1)
+                        if (Grade[i - 1, j] == 1)
                         {
                             clickBaixoHabilitado = false;
                         }
@@ -228,11 +229,11 @@ namespace Tetris
                 }
             }
 
-            for(int linha = 19; linha >= 0; linha--)
+            for (int linha = 0; linha < 20; linha++)
             {
-                for(int coluna = 0; coluna < 10; coluna++)
+                for (int coluna = 0; coluna < 10; coluna++)
                 {
-                    if(Grade[linha,coluna] == 3)
+                    if (Grade[linha, coluna] == 3)
                     {
                         if (Grade[linha - 1, coluna] == 1)
                         {
@@ -262,7 +263,7 @@ namespace Tetris
                             Grade[linha, coluna + 1] = auxiliar;
                             Grade[linha, coluna] = 0;
                             gridVisual[linha, coluna].BackColor = Color.White;
-                           
+
                         }
                         else
                         {
@@ -297,7 +298,7 @@ namespace Tetris
                 }
             }
         }
-        
+
         public void HabilitaMovimentacao()
         {
             clickBaixoHabilitado = true;
@@ -330,7 +331,7 @@ namespace Tetris
             }
             return pecaFixada = true;
         }
-        
+
         public void PintarPecaFixa()
         {
             for (int linha = 0; linha < 20; linha++)
@@ -367,7 +368,7 @@ namespace Tetris
                 }
             }
         }
-        
+
         public void InsertNovaPeca()
         {
             pecaFixada = false;
@@ -388,14 +389,14 @@ namespace Tetris
                 }
             }
         }
-        
+
         private void Rotacao(int Giro)
         {
-            for(int linha = 0; linha < Grade.GetLength(0); linha++)
+            for (int linha = 0; linha < Grade.GetLength(0); linha++)
             {
-                for(int coluna = 0; coluna < Grade.GetLength(1); coluna++)
+                for (int coluna = 0; coluna < Grade.GetLength(1); coluna++)
                 {
-                    if(Grade[linha,coluna] != 0 && Grade[linha,coluna] != 3)
+                    if (Grade[linha, coluna] != 0 && Grade[linha, coluna] != 3)
                     {
                         Grade[linha, coluna] = 0;
                         AtualizaGrade(Giro);
@@ -404,24 +405,24 @@ namespace Tetris
                 }
             }
         }
-        
+
         public void AtualizaGrade(int Giro)
         {
             Bloco grid = fila.ProximoBloco;
             pecaAtual = grid.GridBlocos[Giro];
 
-            for(int linha = 0; linha < pecaAtual.GetLength(0); linha++)
+            for (int linha = 0; linha < pecaAtual.GetLength(0); linha++)
             {
-                for(int coluna = 0; coluna < pecaAtual.GetLength(1); coluna++)
+                for (int coluna = 0; coluna < pecaAtual.GetLength(1); coluna++)
                 {
-                    if(pecaAtual[linha,coluna] == 1)
+                    if (pecaAtual[linha, coluna] == 1)
                     {
-                        Grade[offSetVertical + linha,offSetHorizontal + coluna] = pecaAtual[linha, coluna];
+                        Grade[offSetVertical + linha, offSetHorizontal + coluna] = pecaAtual[linha, coluna];
                     }
                 }
             }
         }
-        
+
         private void Ticks_Tick(object sender, EventArgs e)
         {
             lblPontos.Text = "Pontos: " + pontos;
@@ -433,6 +434,8 @@ namespace Tetris
                 offSetVertical = fila.ProximoBloco.offSetVertical;
             }
             VisualizarMatriz();
+
+            LimpaLinhasCheias();
         }
 
         private void Movimentacao_Tick(object sender, EventArgs e)
@@ -458,7 +461,7 @@ namespace Tetris
                     {
                         LiberarClick(TECLAS.ESQUERDA);
                         MovimentaPecaEsquerda();
-                        if(offSetHorizontal >= 0)
+                        if (offSetHorizontal >= 0)
                         {
                             offSetHorizontal--;
                         }
@@ -472,7 +475,7 @@ namespace Tetris
                     {
                         LiberarClick(TECLAS.DIREITA);
                         MovimentaPecaDireita();
-                        if(offSetHorizontal <= 9)
+                        if (offSetHorizontal <= 9)
                         {
                             offSetHorizontal++;
                         }
@@ -502,7 +505,7 @@ namespace Tetris
                         }
                         else
                         {
-                            Giro += 1;
+                            Giro++;
                         }
                         break;
                     }
@@ -537,9 +540,57 @@ namespace Tetris
                     break;
             }
         }
+
+        public int LinhaVazia(int linha)
+        {
+            int Cont = 0;
+            for (int coluna = 0; coluna < 10; coluna++)
+            {
+                if(Grade[linha,coluna] == 3)
+                {
+                    Cont++;
+                }
+            }
+            return Cont;
+        }
+
+        private void LimpaLinha(int linha)
+        {
+            for(int coluna = 0; coluna < 10; coluna++)
+            {
+                Grade[linha, coluna] = 0;
+            }
+        }
+
+        private void DesceLinhas(int linha, int linhasCheias)
+        {
+            for(int coluna = 0; coluna < 10; coluna++)
+            {
+                Grade[linha + linhasCheias, coluna] = Grade[linha, coluna];
+                Grade[linha, coluna] = 0;
+            }
+        }
+
+        public int LimpaLinhasCheias()
+        {
+            int linhasLimpas = 0;
+            for(int linha = 19; linha >= 0; linha--)
+            {
+                if (LinhaVazia(linha) == 10)
+                {
+                    LimpaLinha(linha);
+                    linhasLimpas++;
+                }else if(linhasLimpas > 0)
+                {
+                    DesceLinhas(linha, linhasLimpas);
+                }
+            }
+            return linhasLimpas;
+        }
+
         public void VisualizarMatriz()
         {
-            
+
             Console.WriteLine("offSetHorizontal: " + offSetHorizontal);
             Console.WriteLine("offSetVertical: " + offSetVertical);
             Console.WriteLine("Giro: " + Giro);
