@@ -30,9 +30,9 @@ namespace Tetris
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaInicial));
             this.label1 = new System.Windows.Forms.Label();
             this.lblData = new System.Windows.Forms.Label();
-            this.lblBemVindo = new System.Windows.Forms.Label();
             this.BtnIniciar = new System.Windows.Forms.Button();
             this.btnCarregar = new System.Windows.Forms.Button();
             this.btnEstatisticas = new System.Windows.Forms.Button();
@@ -61,17 +61,6 @@ namespace Tetris
             this.lblData.Size = new System.Drawing.Size(71, 19);
             this.lblData.TabIndex = 1;
             this.lblData.Text = "00:00:00";
-            // 
-            // lblBemVindo
-            // 
-            this.lblBemVindo.AutoSize = true;
-            this.lblBemVindo.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBemVindo.ForeColor = System.Drawing.Color.White;
-            this.lblBemVindo.Location = new System.Drawing.Point(8, 90);
-            this.lblBemVindo.Name = "lblBemVindo";
-            this.lblBemVindo.Size = new System.Drawing.Size(168, 39);
-            this.lblBemVindo.TabIndex = 0;
-            this.lblBemVindo.Text = "Bem vindo!";
             // 
             // BtnIniciar
             // 
@@ -156,9 +145,9 @@ namespace Tetris
             this.Controls.Add(this.btnCarregar);
             this.Controls.Add(this.BtnIniciar);
             this.Controls.Add(this.lblData);
-            this.Controls.Add(this.lblBemVindo);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TelaInicial";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TelaInicial";
@@ -172,7 +161,6 @@ namespace Tetris
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblData;
-        private System.Windows.Forms.Label lblBemVindo;
         private System.Windows.Forms.Button BtnIniciar;
         private System.Windows.Forms.Button btnCarregar;
         private System.Windows.Forms.Button btnEstatisticas;

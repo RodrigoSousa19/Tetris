@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{93F5AE0B-C2C3-4DCD-91EA-E5E1AA5AAC2D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Tetris</RootNamespace>
     <AssemblyName>Tetris</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -81,6 +81,7 @@
     <Compile Include="Blocos\BlocoT.cs" />
     <Compile Include="Blocos\BlocoZ.cs" />
     <Compile Include="Fila.cs" />
+    <Compile Include="sqoClassDB.cs" />
     <Compile Include="TelaInicial.cs">
       <SubType>Form</SubType>
     </Compile>

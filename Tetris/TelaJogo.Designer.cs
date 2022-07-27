@@ -30,11 +30,13 @@ namespace Tetris
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaGame));
             this.Ticks = new System.Windows.Forms.Timer(this.components);
             this.Grid = new System.Windows.Forms.TableLayoutPanel();
             this.lblPontos = new System.Windows.Forms.Label();
             this.Movimentacao = new System.Windows.Forms.Timer(this.components);
             this.NewPeca = new System.Windows.Forms.Timer(this.components);
+            this.panel2 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // Ticks
@@ -91,7 +93,7 @@ namespace Tetris
             this.lblPontos.AutoSize = true;
             this.lblPontos.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPontos.ForeColor = System.Drawing.Color.White;
-            this.lblPontos.Location = new System.Drawing.Point(451, 12);
+            this.lblPontos.Location = new System.Drawing.Point(342, 12);
             this.lblPontos.Name = "lblPontos";
             this.lblPontos.Size = new System.Drawing.Size(99, 25);
             this.lblPontos.TabIndex = 1;
@@ -107,14 +109,24 @@ namespace Tetris
             // 
             this.NewPeca.Tick += new System.EventHandler(this.NewPeca_Tick);
             // 
+            // panel2
+            // 
+            this.panel2.Location = new System.Drawing.Point(1, 5);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(335, 613);
+            this.panel2.TabIndex = 2;
+            // 
             // TelaGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
-            this.ClientSize = new System.Drawing.Size(844, 621);
+            this.ClientSize = new System.Drawing.Size(591, 621);
             this.Controls.Add(this.lblPontos);
             this.Controls.Add(this.Grid);
+            this.Controls.Add(this.panel2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TelaGame";
             this.Text = "Tetris";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -130,6 +142,7 @@ namespace Tetris
         private System.Windows.Forms.Label lblPontos;
         public System.Windows.Forms.Timer Movimentacao;
         private System.Windows.Forms.Timer NewPeca;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
