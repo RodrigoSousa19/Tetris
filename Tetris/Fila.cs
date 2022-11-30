@@ -25,6 +25,7 @@ namespace Tetris
         {
             ProximoBloco = BlocoAleatorio();
         }
+
         private Bloco BlocoAleatorio()
         {
             return blocos[ran.Next(blocos.Length)];

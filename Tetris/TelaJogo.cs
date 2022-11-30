@@ -14,7 +14,8 @@ namespace Tetris
             DIREITA = 39,
             BAIXO = 40,
             ESPACO = 32,
-            CIMA = 38
+            CIMA = 38,
+            P = 80
         }
 
         #region Variaveis
@@ -28,7 +29,7 @@ namespace Tetris
         public int Giro = 0;
         public int[,] Grade = new int[20, 10];
         private Panel[,] gridVisual = new Panel[20, 10];
-        public int pontos = 0;
+        public int pontos;
         private bool pecaFixada = false;
         #endregion
 
@@ -40,8 +41,9 @@ namespace Tetris
         private void Form1_Load(object sender, EventArgs e)
         {
             CriaGrid();
-            InsertPeca();
-            PintarPeca();
+            DesligaTimers();
+            btnIniciar.Enabled = true;
+            btnCarregar.Enabled = true;
         }
 
         public void CriaGrid()
@@ -53,7 +55,7 @@ namespace Tetris
                     Panel panel = new Panel();
 
                     Grid.Controls.Add(panel, Colunas, Linhas);
-                    panel.BackColor = Color.White;
+                    panel.BackColor = Color.FromArgb(77, 77, 77);
                     panel.BorderStyle = BorderStyle.FixedSingle;
                     panel.Dock = DockStyle.Fill;
                     panel.Margin = new System.Windows.Forms.Padding(0);
@@ -63,6 +65,7 @@ namespace Tetris
             }
         }
 
+ 
         public void InsertPeca()
         {
             int[,] grid = fila.ProximoBloco.GridBlocos[0];
@@ -76,12 +79,12 @@ namespace Tetris
                         if (fila.ProximoBloco.ID != 1)
                         {
                             Grade[linha, coluna + 3] = pecaAtual[linha, coluna];
-                            offSetHorizontal = 3;
+                            offSetHorizontal = 4;
                         }
                         else
                         {
                             Grade[linha - 1, coluna + 3] = pecaAtual[linha, coluna];
-                            offSetHorizontal = 3;
+                            offSetHorizontal = 4;
                         }
                     }
                 }
@@ -123,7 +126,7 @@ namespace Tetris
                     }
                     else if (Grade[linha, coluna] == 0)
                     {
-                        gridVisual[linha, coluna].BackColor = Color.White;
+                        gridVisual[linha, coluna].BackColor = Color.FromArgb(77, 77, 77);
                     }
                     else
                     {
@@ -156,6 +159,7 @@ namespace Tetris
                 NewPeca.Enabled = true;
             }
         }
+
 
         public void MovimentaPecaDireita()
         {
@@ -226,12 +230,12 @@ namespace Tetris
                         if (fila.ProximoBloco.ID != 1)
                         {
                             Grade[linha, coluna + 3] = novaPeca[linha, coluna];
-                            offSetHorizontal = 3;
+                            offSetHorizontal = 4;
                         }
                         else
                         {
                             Grade[linha - 1, coluna + 3] = novaPeca[linha, coluna];
-                            offSetHorizontal = 3;
+                            offSetHorizontal = 4;
                         }
                     }
                 }
@@ -255,6 +259,14 @@ namespace Tetris
                     }
                 }
             }
+            if (Giro >= 3)
+            {
+                Giro = 0;
+            }
+            else
+            {
+                Giro++;
+            }
         }
 
         public void AtualizaGrade()
@@ -269,13 +281,25 @@ namespace Tetris
 
                     if (pecaAtual[linha, coluna] == 1)
                     {
-                        Grade[offSetVertical + linha, offSetHorizontal + coluna] = pecaAtual[linha, coluna];
+                        if (grid.ID != 1)
+                        {
+                            Grade[offSetVertical + linha, offSetHorizontal + coluna - 1] = pecaAtual[linha, coluna];
+                        }
+                        else if(grid.ID == 1 && offSetHorizontal <= 3)
+                        {
+                            Grade[offSetVertical + linha, offSetHorizontal - coluna + 2] = pecaAtual[linha, coluna];
+                        }
+                        else
+                        {
+                            Grade[offSetVertical + linha, offSetHorizontal - coluna + 1] = pecaAtual[linha, coluna];
+                        }
                     }
-
                 }
             }
 
         }
+
+
 
         private void Ticks_Tick(object sender, EventArgs e)
         {
@@ -295,7 +319,10 @@ namespace Tetris
             GameOver();
 
             ResetGame();
+
         }
+
+
 
         private void Movimentacao_Tick(object sender, EventArgs e)
         {
@@ -304,12 +331,16 @@ namespace Tetris
             LimpaLinhasCheias();
         }
 
+
+
         private void NewPeca_Tick(object sender, EventArgs e)
         {
             Giro = 0;
             InsertNovaPeca();
             NewPeca.Enabled = false;
         }
+
+
 
         private void TelaGame_KeyDown(object sender, KeyEventArgs e)
         {
@@ -335,21 +366,18 @@ namespace Tetris
                     }
                 case (int)TECLAS.ESPACO:
                     {
-                        DesligaTimers();
-                        sqoClassDB.SaveResult(Grade,pontos);
                         break;
                     }
                 case (int)TECLAS.CIMA:
                     {
                         Rotacao();
-                        if (Giro >= 3)
-                        {
-                            Giro = 0;
-                        }
-                        else
-                        {
-                            Giro++;
-                        }
+                        break;
+                    }
+                case (int)TECLAS.P:
+                    {
+                        DesligaTimers();
+                        AtivaBotoes();
+                        btnPausar.Text = "Continuar";
                         break;
                     }
 
@@ -424,6 +452,7 @@ namespace Tetris
             if (podeMoverPeca == 4) return true;
             else return false;
         }
+
         public bool PodeMoverDireita()
         {
             int podeMoverPeca = 0;
@@ -498,8 +527,13 @@ namespace Tetris
         public void DesligaTimers()
         {
             Ticks.Enabled = false;
-            NewPeca.Enabled = false;
             Movimentacao.Enabled = false;
+        }
+
+        public void LigaTimers()
+        {
+            Ticks.Enabled = true;
+            Movimentacao.Enabled = true;
         }
 
         public bool PodeRotacionar()
@@ -511,20 +545,29 @@ namespace Tetris
             {
                 for (int coluna = 0; coluna < pecaAtual.GetLength(1); coluna++)
                 {
-                    if (offSetHorizontal > 0 && offSetHorizontal < 8)
+                    if (offSetHorizontal > 0 && offSetHorizontal <= 8)
                     {
-                        if (grid[linha, coluna] == 1 && Grade[linha + offSetVertical, coluna + offSetHorizontal] != 3)
+                        if (fila.ProximoBloco.ID != 1)
                         {
-                            podeRotacionar++;
+                            if (grid[linha, coluna] == 1 && Grade[offSetVertical + linha, offSetHorizontal + coluna - 1] != 3)
+                            {
+                                podeRotacionar++;
+                            }
                         }
-                    }
-                    else if (offSetHorizontal >= 8)
-                    {
-                        MovimentaPecaEsquerda();
-                    }
-                    else if (offSetHorizontal <= 0)
-                    {
-                        MovimentaPecaDireita();
+                        else if(fila.ProximoBloco.ID == 1 && offSetHorizontal <= 3)
+                        {
+                            if (grid[linha, coluna] == 1 && Grade[offSetVertical + linha, offSetHorizontal + coluna + 2] != 3)
+                            {
+                                podeRotacionar++;
+                            }
+                        }
+                        else
+                        {
+                            if (grid[linha, coluna] == 1 && Grade[offSetVertical + linha, offSetHorizontal + coluna - 1] != 3)
+                            {
+                                podeRotacionar++;
+                            }
+                        }
                     }
                 }
             }
@@ -553,6 +596,64 @@ namespace Tetris
                 MessageBox.Show("GameOver!", "Fim da partida!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 this.Close();
             }
+        }
+
+        public void DesativaBotoes()
+        {
+            btnPausar.Enabled = false;
+            btnSalvar.Enabled = false;
+            btnCarregar.Enabled = false;
+            btnSair.Enabled = false;
+        }
+
+        public void AtivaBotoes()
+        {
+            btnPausar.Enabled = true;
+            btnSalvar.Enabled = true;
+            btnCarregar.Enabled = true;
+            btnSair.Enabled = true;
+        }
+
+        private void btnSalvar_Click(object sender, EventArgs e)
+        {
+            sqoClassDB.SaveResult(Grade, pontos);
+            MessageBox.Show("Jogo Salvo!", "Salvando progresso...", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
+        private void btnPausar_Click(object sender, EventArgs e)
+        {
+            LigaTimers();
+            DesativaBotoes();
+            btnPausar.Text = "Pausar";
+        }
+
+        private void btnIniciar_Click(object sender, EventArgs e)
+        {
+            InsertPeca();
+            PintarPeca();
+            LigaTimers();
+            btnIniciar.Enabled = false;
+            btnCarregar.Enabled = false;
+        }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        public void CarregaDados()
+        {
+            sqoClassDB.GetGrade(Grade);
+            pontos = sqoClassDB.GetPontos();
+        }
+
+        private void btnCarregar_Click(object sender, EventArgs e)
+        {
+            LigaTimers();
+            CarregaDados();
+            DesativaBotoes();
+            btnCarregar.Enabled = false;
+            btnIniciar.Enabled = false;
         }
     }
 }

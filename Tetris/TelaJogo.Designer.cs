@@ -37,6 +37,14 @@ namespace Tetris
             this.Movimentacao = new System.Windows.Forms.Timer(this.components);
             this.NewPeca = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnIniciar = new System.Windows.Forms.Button();
+            this.btnSalvar = new System.Windows.Forms.Button();
+            this.btnCarregar = new System.Windows.Forms.Button();
+            this.btnPausar = new System.Windows.Forms.Button();
+            this.btnSair = new System.Windows.Forms.Button();
+            this.lblInstrucao = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Ticks
@@ -116,6 +124,95 @@ namespace Tetris
             this.panel2.Size = new System.Drawing.Size(335, 613);
             this.panel2.TabIndex = 2;
             // 
+            // btnIniciar
+            // 
+            this.btnIniciar.Enabled = false;
+            this.btnIniciar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIniciar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIniciar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(239)))), ((int)(((byte)(227)))));
+            this.btnIniciar.Location = new System.Drawing.Point(422, 372);
+            this.btnIniciar.Name = "btnIniciar";
+            this.btnIniciar.Size = new System.Drawing.Size(93, 31);
+            this.btnIniciar.TabIndex = 3;
+            this.btnIniciar.Text = "Iniciar";
+            this.btnIniciar.UseVisualStyleBackColor = true;
+            this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
+            // 
+            // btnSalvar
+            // 
+            this.btnSalvar.Enabled = false;
+            this.btnSalvar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalvar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalvar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(239)))), ((int)(((byte)(227)))));
+            this.btnSalvar.Location = new System.Drawing.Point(422, 418);
+            this.btnSalvar.Name = "btnSalvar";
+            this.btnSalvar.Size = new System.Drawing.Size(93, 31);
+            this.btnSalvar.TabIndex = 3;
+            this.btnSalvar.Text = "Salvar";
+            this.btnSalvar.UseVisualStyleBackColor = true;
+            this.btnSalvar.Click += new System.EventHandler(this.btnSalvar_Click);
+            // 
+            // btnCarregar
+            // 
+            this.btnCarregar.Enabled = false;
+            this.btnCarregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCarregar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCarregar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(239)))), ((int)(((byte)(227)))));
+            this.btnCarregar.Location = new System.Drawing.Point(422, 464);
+            this.btnCarregar.Name = "btnCarregar";
+            this.btnCarregar.Size = new System.Drawing.Size(93, 31);
+            this.btnCarregar.TabIndex = 3;
+            this.btnCarregar.Text = "Carregar";
+            this.btnCarregar.UseVisualStyleBackColor = true;
+            this.btnCarregar.Click += new System.EventHandler(this.btnCarregar_Click);
+            // 
+            // btnPausar
+            // 
+            this.btnPausar.Enabled = false;
+            this.btnPausar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPausar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPausar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(239)))), ((int)(((byte)(227)))));
+            this.btnPausar.Location = new System.Drawing.Point(422, 510);
+            this.btnPausar.Name = "btnPausar";
+            this.btnPausar.Size = new System.Drawing.Size(93, 31);
+            this.btnPausar.TabIndex = 3;
+            this.btnPausar.Text = "Pausar";
+            this.btnPausar.UseVisualStyleBackColor = true;
+            this.btnPausar.Click += new System.EventHandler(this.btnPausar_Click);
+            // 
+            // btnSair
+            // 
+            this.btnSair.Enabled = false;
+            this.btnSair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSair.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSair.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(239)))), ((int)(((byte)(227)))));
+            this.btnSair.Location = new System.Drawing.Point(422, 556);
+            this.btnSair.Name = "btnSair";
+            this.btnSair.Size = new System.Drawing.Size(93, 31);
+            this.btnSair.TabIndex = 3;
+            this.btnSair.Text = "Sair";
+            this.btnSair.UseVisualStyleBackColor = true;
+            this.btnSair.Click += new System.EventHandler(this.btnSair_Click);
+            // 
+            // lblInstrucao
+            // 
+            this.lblInstrucao.AutoSize = true;
+            this.lblInstrucao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInstrucao.ForeColor = System.Drawing.Color.White;
+            this.lblInstrucao.Location = new System.Drawing.Point(3, 42);
+            this.lblInstrucao.Name = "lblInstrucao";
+            this.lblInstrucao.Size = new System.Drawing.Size(220, 16);
+            this.lblInstrucao.TabIndex = 4;
+            this.lblInstrucao.Text = "Para pausar o jogo aperte a tecla P";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lblInstrucao);
+            this.panel1.Location = new System.Drawing.Point(356, 266);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(223, 100);
+            this.panel1.TabIndex = 5;
+            // 
             // TelaGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -123,14 +220,22 @@ namespace Tetris
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
             this.ClientSize = new System.Drawing.Size(591, 621);
+            this.Controls.Add(this.btnSair);
+            this.Controls.Add(this.btnPausar);
+            this.Controls.Add(this.btnCarregar);
+            this.Controls.Add(this.btnSalvar);
+            this.Controls.Add(this.btnIniciar);
             this.Controls.Add(this.lblPontos);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TelaGame";
             this.Text = "Tetris";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TelaGame_KeyDown);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,6 +248,13 @@ namespace Tetris
         public System.Windows.Forms.Timer Movimentacao;
         private System.Windows.Forms.Timer NewPeca;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnIniciar;
+        private System.Windows.Forms.Button btnSalvar;
+        private System.Windows.Forms.Button btnCarregar;
+        private System.Windows.Forms.Button btnPausar;
+        private System.Windows.Forms.Button btnSair;
+        private System.Windows.Forms.Label lblInstrucao;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
